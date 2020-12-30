@@ -1,0 +1,72 @@
+#1: search the names of students who only take courses in 2019 Spring semester -using the view SEIS_ENROLLED_STUDENTS 
+
+select sname   
+From SEIS_ENROLLED_STUDENTS st   
+Where not exists(select ses.seid  
+    from SEIS_ENROLLED_STUDENTS ses  
+    Where st.sname=ses.sname and ses.seid not in (select seid   
+                                       From schedule sc,course_section cs   
+                                        Where sc.y_ear=2019 and    
+                                        sc.semester='Spring' and   
+                                        Sc.scid=cs.scid) ); 
+										
+answer: The name of student who only take courses in 2019 Spring semester is Tommy
+
+#2:search the names of students and sections id and their grades who take course’s sections that are not taught by professor whose id is 1089 and is not taken in building TMH and is not under software engineering department – using the view cs_seid 
+										
+select distinct st.sname, css.seid,grade 
+from student st, sel_section ss,cs_seid css,take_ex te,student su 
+where ss.seid=css.seid and  
+    ss.stid=st.stid and  
+    su.stid=st.stid and 
+    su.stid=te.stid;
+	
+answer:
+
+#3: Could you search students’ names and their departments and levels whose average grade of all their exams is more then 90? – using the view avg90_names 
+
+select st.sname,did,l_evel 
+from avg90_names an, student st 
+where an.sname=st.sname 
+order by did; 
+
+#4:Can you search the result of sections’ id and their courses’ name that have not been enrolled more than 30 students under department SEIS?– using the view seis_enrolled_students 
+
+select distinct seid, co.cid 
+from course co, seis_enrolled_students ses 
+where co.cid=ses.cid and seid in (select seid 
+        	from seis_enrolled_students 
+       		group by seid 
+        	having sum(seid)<30);
+
+
+
+	
+#5:Can you tell the professors’ name and section id they teach Which has an average grade over 70  
+of all the enrolled students except students who enrolled in only course’s sections that are not in building TMH? - using the view sname_not_in_tmh 
+
+select pname, seid
+from professor pr,mmanage mm
+where mm.action='add' and 
+	pr.pid=mm.pid and exists(select avg(grade)
+                        from take_ex te,student st
+                        where mm.seid=te.seid and 
+                        st.stid=te.stid and sname 
+                        not in (select sname
+                        from sname_not_in_tmh sn)
+                        group by seid
+                        having avg(grade)>70);
+						
+						
+#6: If one opening section have less than 10 students enrolled, the advisor can check the information of this section and professor to figure out whether they decide to delete this section.
+
+select seid,pid
+from mmanage mm
+where action='add' and 
+    exists(
+    select sum(seid)
+    from sel_section ss
+    where ss.condition='enrolled' and
+    mm.seid=ss.seid
+    group by seid
+    having sum(seid)<10);

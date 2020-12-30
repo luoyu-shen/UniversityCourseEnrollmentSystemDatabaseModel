@@ -1,0 +1,330 @@
+#team 8
+#tables
+
+SQL> select * from student;
+
+      STID SNAME                L_EVEL        DID
+---------- -------------------- ------------- ----------
+ 834248523 John                 graduate      SEIS
+ 634238221 Tommy                graduate      SEIS
+ 673293244 Sean                 Undergraduate GEOG
+ 101248523 Yao                  graduate      SEIS
+ 222345345 Tom                  Undergraduate CHEM
+ 133456423 Jack                 graduate      SEIS
+ 832222523 Elena                graduate      SEIS
+ 764248423 Cici                 graduate      SEIS
+ 101234523 Miller               Undergraduate ECON
+ 134248523 Bincy                graduate      SEIS
+ 138765423 Tari                 Undergraduate SOCI
+
+      STID SNAME                L_EVEL        DID
+---------- -------------------- ------------- ----------
+ 421456423 Tanya                Undergraduate ECON
+ 222346645 Mark                 graduate      GEOG
+
+13 rows selected.
+
+-------------Course table------------------
+
+SQL> select * from course;
+
+       CID
+----------
+TITLE
+--------------------------------------------------------------------------------
+   CREDITS DID
+---------- ----------
+       665
+Devops
+         3 SEIS
+
+       630
+Database Management
+         3 SEIS
+
+       CID
+----------
+TITLE
+--------------------------------------------------------------------------------
+   CREDITS DID
+---------- ----------
+
+       610
+Software engineering
+         3 SEIS
+
+       631
+Foundation of data analysis
+
+       CID
+----------
+TITLE
+--------------------------------------------------------------------------------
+   CREDITS DID
+---------- ----------
+         3 SEIS
+
+       603
+Foundation of software Dev-python
+         3 SEIS
+
+       210
+
+       CID
+----------
+TITLE
+--------------------------------------------------------------------------------
+   CREDITS DID
+---------- ----------
+Research Methods in Sociology
+         4 SOCI
+
+       252
+Principles of Macroeconomics
+         4 ECON
+
+
+       CID
+----------
+TITLE
+--------------------------------------------------------------------------------
+   CREDITS DID
+---------- ----------
+       311
+Forecasting
+         4 ECON
+
+       331
+Conservation Geography
+         4 GEOG
+
+       CID
+----------
+TITLE
+--------------------------------------------------------------------------------
+   CREDITS DID
+---------- ----------
+
+       111
+General Chemistry I
+         4 CHEM
+
+
+10 rows selected.
+
+------------------Sel_Section table------------------------------------
+
+
+SQL> select * from sel_section;
+
+SEID        STID CONDITION
+----- ---------- ----------
+00001  834248523 enrolled
+00001  832222523 waitlisted
+00002  764248423 enrolled
+00001  634238221 enrolled
+00002  101248523 waitlisted
+00001  673293244 waitlisted
+00003  134248523 enrolled
+00001  834345623 enrolled
+00003  834248523 enrolled
+00004  832222523 enrolled
+00005  134248523 enrolled
+
+SEID        STID CONDITION
+----- ---------- ----------
+00005  133456423 enrolled
+00006  138765423 enrolled
+00007  421456423 enrolled
+00008  421456423 waitlisted
+00009  222346645 enrolled
+00010  222345345 enrolled
+00009  673293244 enrolled
+00008  101234523 enrolled
+00004  634238221 waitlisted
+00012  133456423 enrolled
+
+21 rows selected.
+
+----------------------Schedule table-----------------------
+SQL> select * from schedule;
+
+      SCID      Y_EAR SEMEST     M_ONTH      D_ATE
+---------- ---------- ------ ---------- ----------
+         1       2019 Spring          2          4
+         2       2018 Summer          5         23
+         3       2017 Spring          2          4
+         4       2019 Summer          5         18
+         5       2018 Spring          2          7
+         6       2018 Fall            8         23
+         7       2017 Fall            8         22
+         8       2019 Fall            8         25
+         9       2017 Summer          2          4
+
+9 rows selected.
+
+-----------------------Take_ex table-------------------------
+
+
+SQL> select * from take_ex;
+
+       EID       STID SEID       GRADE
+---------- ---------- ----- ----------
+         1  834248523 00001         92
+         2  764248423 00002         93
+         1  634238221 00001         82
+         3  134248523 00003         95
+         1  834345623 00001         88
+         3  834248523 00003         89
+         4  832222523 00004         82
+         5  134248523 00005         87
+         5  133456423 00005         90
+         6  138765423 00006         91
+         7  421456423 00007         91
+
+       EID       STID SEID       GRADE
+---------- ---------- ----- ----------
+         9  222346645 00009         81
+        10  222345345 00010         85
+         9  673293244 00009         84
+         8  101234523 00008         84
+         1  133456423 00012         94
+
+16 rows selected.
+
+--------------------------Advisor table----------------------
+SQL> select * from advisor;
+
+       AID ANAME                DID
+---------- -------------------- ----------
+       356 Chrry                SEIS
+       342 David                SEIS
+       756 Jam                  SEIS
+       856 Brain                SOCI
+       807 Jaeson               ECON
+       405 Cirs                 ECON
+       690 Garen                GEOG
+       670 Andy                 CHEM
+
+8 rows selected.
+
+-------------------------mManage Tabe------------------------
+SQL> select * from mmanage;
+
+       AID SEID         PID ACTION
+---------- ----- ---------- ------
+       356 00001       1089 add
+       342 00002       1235 delete
+       756 00003       1435 add
+       756 00004       1532 add
+       342 00005       1034 add
+       856 00006       1534 add
+       405 00007       1439 add
+       405 00008       1642 add
+       690 00009       1744 add
+       670 00010       1742 delete
+
+10 rows selected.
+
+----------------------------Room table--------------------------
+SQL> select * from room;
+
+       RID R_N BUILDING
+---------- --- --------------------
+         1 345 TMH
+         2 234 SCH
+         3 123 MSL
+         4 145 TMH
+         5 167 MSL
+         6 346 MSL
+         7 387 TMH
+         8 356 TMH
+         9 253 SCH
+
+9 rows selected.
+
+----------------------------------Exam table------------------------
+SQL> select * from exam;
+
+       EID SEID        SCID
+---------- ----- ----------
+         1 00001          6
+         2 00002          7
+         3 00003          3
+         4 00004          5
+         5 00005          1
+         6 00006          2
+         7 00007          8
+         8 00008          4
+         9 00009          8
+        10 00010          9
+
+10 rows selected.
+
+------------------------------Department table--------------------------------
+
+SQL> select * from department;
+
+DID
+----------
+DNAME
+--------------------------------------------------------------------------------
+SEIS
+Software Engineering
+
+SOCI
+Social Sciences
+
+ECON
+Economy
+
+
+DID
+----------
+DNAME
+--------------------------------------------------------------------------------
+GEOG
+Geography
+
+CHEM
+Chemistry
+
+
+--------------------------------Professor table-------------------------
+SQL> select * from professor;
+
+PID  PNAME                TITLE                DID
+---- -------------------- -------------------- ----------
+1089 Sara                 Professor            SEIS
+1235 Kinny                Assistant Professor  SEIS
+1435 Coco                 Associate Professor  SEIS
+1532 Wang                 Clinical Professor   SEIS
+1034 Janny                Professor Emeritus   SEIS
+1534 Michael              Assistant Professor  SOCI
+1439 Richard              Assistant Professor  ECON
+1642 Pam                  Professor            ECON
+1744 Sam                  Associate Professor  GEOG
+1742 George               Professor            CHEM
+
+10 rows selected.
+
+--------------------------Course_Section table----------------------------
+SEID      S_SIZE        CID       SCID        RID
+----- ---------- ---------- ---------- ----------
+00001         20        665          1          5
+00002         30        630          2          2
+00003         50        610          3          3
+00004         30        631          4          7
+00005         50        603          5          3
+00006         40        210          6          6
+00007         30        252          7          7
+00008         20        311          8          8
+00009         40        331          9          2
+00010         20        111          8          2
+00011         30        665          2          5
+
+SEID      S_SIZE        CID       SCID        RID
+----- ---------- ---------- ---------- ----------
+00012         30        665          3          5
+
+12 rows selected.

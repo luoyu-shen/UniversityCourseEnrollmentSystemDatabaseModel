@@ -1,0 +1,107 @@
+#team 8 :
+#milestone2 view results
+
+#1:Create a view SEIS_ENROLLED_STUDENTS to show all the courses and their sections information of enrolled students' name under department SEIS
+
+SQL> create view SEIS_ENROLLED_STUDENTS as
+  2  select cs.cid, ss.seid,s.sname
+  3      from student s,course co,sel_section ss,course_section cs
+  4  where co.did='SEIS' and
+  5                   ss.condition='enrolled' and
+  6                             co.cid=cs.cid and
+  7                             ss.seid=cs.seid and
+  8                             ss.stid=s.stid
+  9                             order by cid;
+
+View created.
+
+
+SQL> select * from SEIS_ENROLLED_STUDENTS;
+
+       CID SEID  SNAME
+---------- ----- --------------------
+       603 00005 Bincy
+       603 00005 Jack
+       610 00003 Bincy
+       610 00003 John
+       630 00002 Cici
+       631 00004 Elena
+       665 00001 John
+       665 00001 Tommy
+       665 00012 Jack
+
+9 rows selected.
+
+#2:Create a view to show the id of all the course sections that are not taught by professor whose id is 1089 and is not taken in building TMH and is not under software engineering department
+
+SQL> create view cs_seid as
+  2      select seid
+  3      from mmanage
+  4      where pid!=1089
+  5      intersect
+  6      select seid
+  7      from course_section cs
+  8      where rid not in (select rid
+  9   from room
+ 10   where building ='TMH’)
+ 11      minus
+ 12      select seid
+ 13      from course_section cs, course co
+ 14      where co.did='SEIS'  and
+ 15  cs.cid=co.cid;
+
+View created.
+
+SQL> select * from cs_seid;
+
+SEID
+-----
+00006
+00009
+00010
+
+#3:Create a view to show the names of all the students whose average grade of all their exams is more then 90
+
+SQL> create view  avg90_names as
+  2      select distinct sname
+  3      from student s
+  4      where exists(select avg(grade)
+  5              from take_ex te
+  6          where te.stid=s.stid
+  7          group by te.stid
+  8          having avg(grade)>90);
+
+View created.
+
+SQL> select * from avg90_names;
+SNAME
+--------------------
+John
+Jack
+Cici
+Bincy
+Tanya
+Tari
+
+6 rows selected.
+
+
+#4:Create a view to show the names of all the students who enrolled in only course’s sections that are not in building TMH
+
+SQL> create view sname_not_in_TMH as
+  2  select sname
+  3  from student st, sel_section ss1
+  4  where st.stid=ss1.stid and
+  5  not exists(select rid
+  6   from room
+  7   where building='TMH' and
+  8   rid not in (select seid
+  9  from sel_section ss
+ 10  where condition='enrolled' and
+ 11  ss.stid=ss1.stid));
+
+View created.
+
+SQL> select * from sname_not_in_TMH;
+
+no rows selected
